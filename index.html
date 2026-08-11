@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MEGA CABLE · WiFi Gratis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rojo: #D31E2B;
+    --rojo-oscuro: #9A1420;
+    --tinta: #17181C;
+    --blanco-calido: #FAF9F7;
+    --gris: #6B7078;
+    --gris-claro: #E7E5E2;
+    --exito: #1F9D55;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{ height:100%; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background: var(--tinta);
+    color: var(--tinta);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* fondo con textura sutil de señal */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(211,30,43,0.25), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(211,30,43,0.15), transparent 50%);
+    pointer-events:none;
+  }
+
+  .app{
+    width:100%;
+    max-width:440px;
+    min-height:100vh;
+    background: var(--blanco-calido);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    box-shadow: 0 0 60px rgba(0,0,0,0.4);
+  }
+
+  @media (min-width:480px){
+    .app{ min-height:auto; margin:32px 0; border-radius:24px; overflow:hidden; }
+  }
+
+  /* HEADER */
+  header{
+    background: var(--tinta);
+    color:#fff;
+    padding:28px 28px 60px;
+    position:relative;
+  }
+
+  .logo{
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    letter-spacing:-0.02em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo span{ color: var(--rojo); }
+
+  .eyebrow{
+    margin-top:26px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  h1{
+    font-family:'Manrope', sans-serif;
+    font-size:30px;
+    line-height:1.15;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin-top:8px;
+  }
+
+  header::after{
+    content:"";
+    position:absolute;
+    bottom:-1px; left:0; right:0;
+    height:36px;
+    background: var(--blanco-calido);
+    border-radius:28px 28px 0 0;
+  }
+
+  /* señal wifi - elemento firma */
+  .signal{
+    position:absolute;
+    top:26px; right:28px;
+    display:flex;
+    align-items:flex-end;
+    gap:4px;
+    height:26px;
+  }
+  .signal i{
+    display:block;
+    width:5px;
+    background: rgba(255,255,255,0.25);
+    border-radius:2px;
+    transition: background .4s ease;
+  }
+  .signal i:nth-child(1){ height:8px; }
+  .signal i:nth-child(2){ height:14px; }
+  .signal i:nth-child(3){ height:20px; }
+  .signal i:nth-child(4){ height:26px; }
+  .signal.on i{ background: var(--rojo); }
+  .signal.on i:nth-child(1){ animation: pulse 1.2s ease-in-out infinite; }
+  .signal.on i:nth-child(2){ animation: pulse 1.2s ease-in-out .15s infinite; }
+  .signal.on i:nth-child(3){ animation: pulse 1.2s ease-in-out .3s infinite; }
+  .signal.on i:nth-child(4){ animation: pulse 1.2s ease-in-out .45s infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
+
+  /* MAIN */
+  main{
+    flex:1;
+    padding:8px 28px 32px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .oferta{
+    background: #fff;
+    border:1px solid var(--gris-claro);
+    border-radius:14px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:24px;
+  }
+  .oferta .punto{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--exito);
+    flex-shrink:0;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .oferta p{ font-size:13px; color: var(--gris); font-weight:500; }
+  .oferta strong{ color: var(--tinta); }
+
+  form{ display:flex; flex-direction:column; gap:14px; }
+
+  .campo{ display:flex; flex-direction:column; gap:6px; }
+  .campo label{
+    font-size:12px;
+    font-weight:600;
+    color: var(--gris);
+    letter-spacing:0.02em;
+  }
+  .campo input{
+    border:1.5px solid var(--gris-claro);
+    background:#fff;
+    border-radius:12px;
+    padding:14px 16px;
+    font-size:15px;
+    font-family:'Inter', sans-serif;
+    color: var(--tinta);
+    outline:none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .campo input:focus{
+    border-color: var(--rojo);
+    box-shadow: 0 0 0 4px rgba(211,30,43,0.12);
+  }
+  .campo input.error{ border-color: var(--rojo-oscuro); }
+  .campo small{ font-size:11px; color: var(--rojo-oscuro); min-height:14px; }
+
+  .terminos{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:6px;
+    font-size:12.5px;
+    color: var(--gris);
+    line-height:1.5;
+  }
+  .terminos input{
+    margin-top:2px;
+    width:16px; height:16px;
+    accent-color: var(--rojo);
+    flex-shrink:0;
+  }
+  .terminos a{ color: var(--tinta); font-weight:600; text-decoration:underline; }
+
+  button.cta{
+    margin-top:10px;
+    background: var(--rojo);
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    padding:17px;
+    font-size:15.5px;
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    transition: transform .15s ease, background .2s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  button.cta:hover{ background: var(--rojo-oscuro); }
+  button.cta:active{ transform: scale(0.98); }
+  button.cta:disabled{ opacity:0.7; cursor:default; }
+  button.cta:focus-visible{ outline: 3px solid var(--tinta); outline-offset:2px; }
+
+  .spinner{
+    width:16px; height:16px;
+    border-radius:50%;
+    border:2.5px solid rgba(255,255,255,0.4);
+    border-top-color:#fff;
+    animation: spin .7s linear infinite;
+    display:none;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  button.cta.cargando .spinner{ display:inline-block; }
+  button.cta.cargando .texto-btn{ display:none; }
+
+  .legal{
+    margin-top:18px;
+    text-align:center;
+    font-size:11px;
+    color: #9a9d a3;
+    color: #9A9DA3;
+  }
+
+  /* PANTALLA DE ÉXITO */
+  .exito-pantalla{
+    display:none;
+    flex:1;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:12px 8px 24px;
+  }
+  .exito-pantalla.activo{ display:flex; }
+
+  .check-wrap{
+    width:76px; height:76px;
+    border-radius:50%;
+    background: rgba(31,157,85,0.12);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:22px;
+  }
+  .check-wrap svg{ width:34px; height:34px; }
+  .check-wrap circle, .check-wrap path{
+    stroke: var(--exito);
+    stroke-width:3;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .check-wrap circle{
+    stroke-dasharray:126;
+    stroke-dashoffset:126;
+    animation: trazar 0.6s ease forwards;
+  }
+  .check-wrap path{
+    stroke-dasharray:24;
+    stroke-dashoffset:24;
+    animation: trazar 0.4s ease .6s forwards;
+  }
+  @keyframes trazar{ to{ stroke-dashoffset:0; } }
+
+  .exito-pantalla h2{
+    font-family:'Manrope', sans-serif;
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+  .exito-pantalla p.sub{
+    color: var(--gris);
+    font-size:14px;
+    max-width:280px;
+    line-height:1.5;
+    margin-bottom:28px;
+  }
+
+  .banner-promo{
+    width:100%;
+    background: linear-gradient(135deg, var(--tinta), #2a2c33);
+    color:#fff;
+    border-radius:16px;
+    padding:20px;
+    text-align:left;
+    margin-top:auto;
+  }
+  .banner-promo .tag{
+    display:inline-block;
+    background: var(--rojo);
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .banner-promo h3{
+    font-family:'Manrope', sans-serif;
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:4px;
+  }
+  .banner-promo p{
+    font-size:12.5px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom:14px;
+  }
+  .banner-promo a{
+    display:inline-block;
+    background:#fff;
+    color: var(--tinta);
+    font-size:13px;
+    font-weight:700;
+    padding:10px 18px;
+    border-radius:10px;
+    text-decoration:none;
+  }
+
+  .tiempo-restante{
+    font-size:12px;
+    color: var(--gris);
+    margin-top:16px;
+  }
+  .tiempo-restante strong{ color: var(--tinta); }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="signal" id="signalIcon">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <div class="logo">MEGA<span>CABLE</span></div>
+    <div class="eyebrow">WiFi cortesía</div>
+    <h1>Estás a un paso<br>de conectarte</h1>
+  </header>
+
+  <main>
+
+    <!-- PASO 1: FORMULARIO -->
+    <div id="pasoForm">
+      <div class="oferta">
+        <div class="punto"></div>
+        <p><strong>Acceso gratuito por 60 min.</strong> Solo necesitamos tus datos para activarlo.</p>
+      </div>
+
+      <form id="formPortal" novalidate>
+        <div class="campo">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" autocomplete="name" required>
+          <small id="errNombre"></small>
+        </div>
+
+        <div class="campo">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="998 123 4567" autocomplete="tel" required>
+          <small id="errTelefono"></small>
+        </div>
+
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email" required>
+          <small id="errCorreo"></small>
+        </div>
+
+        <label class="terminos">
+          <input type="checkbox" id="acepto" required>
+          <span>Acepto el <a href="#" target="_blank">aviso de privacidad</a> y el uso de mis datos con fines comerciales de MEGA CABLE.</span>
+        </label>
+
+        <button type="submit" class="cta" id="btnConectar">
+          <span class="spinner"></span>
+          <span class="texto-btn">Conectarme ahora</span>
+        </button>
+      </form>
+
+      <p class="legal">Tus datos están protegidos y no se comparten con terceros.</p>
+    </div>
+
+    <!-- PASO 2: EXITO -->
+    <div class="exito-pantalla" id="pasoExito">
+      <div class="check-wrap">
+        <svg viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="19"></circle>
+          <path d="M14 22 L19.5 27.5 L30 16"></path>
+        </svg>
+      </div>
+      <h2>¡Ya estás conectado!</h2>
+      <p class="sub">Disfruta tu acceso gratuito a internet cortesía de MEGA CABLE.</p>
+
+      <div class="banner-promo">
+        <span class="tag">Oferta para tu casa</span>
+        <h3>Internet simétrico desde $399/mes</h3>
+        <p>Lleva la misma velocidad que tienes aquí directo a tu hogar, sin cortes ni compartir señal.</p>
+        <a href="#" target="_blank">Ver paquetes MEGA</a>
+      </div>
+
+      <p class="tiempo-restante">Tiempo restante de sesión: <strong id="contador">60:00</strong></p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN DE ENVÍO DE DATOS A GOOGLE SHEETS
+   ============================================================
+   1. Crea un Google Sheet nuevo con columnas: Fecha | Nombre | Teléfono | Correo
+   2. Ve a Extensiones > Apps Script y pega un script que reciba
+      peticiones POST (doPost) y las agregue como fila nueva.
+   3. Publica el script como "Aplicación web" (acceso: cualquiera)
+      y copia la URL que te da Google.
+   4. Pega esa URL abajo en GOOGLE_SCRIPT_URL.
+   Si no configuras la URL, el formulario funcionará en modo
+   demo (guarda localmente en el navegador solo para pruebas,
+   sin backend real).
+   ============================================================ */
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_QXI6ARMW0XVrgpt2rfomlGLgRJUqd5MA6GhqNWNyQatlod2DmmXdpsYfx82F41Plqw/exec"; // <-- URL de Apps Script conectada
+
+const form = document.getElementById('formPortal');
+const btn = document.getElementById('btnConectar');
+const pasoForm = document.getElementById('pasoForm');
+const pasoExito = document.getElementById('pasoExito');
+const signalIcon = document.getElementById('signalIcon');
+
+function validarCampo(input, errorEl, condicion, mensaje){
+  if(!condicion){
+    input.classList.add('error');
+    errorEl.textContent = mensaje;
+    return false;
+  }
+  input.classList.remove('error');
+  errorEl.textContent = '';
+  return true;
+}
+
+form.addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  const nombre = document.getElementById('nombre');
+  const telefono = document.getElementById('telefono');
+  const correo = document.getElementById('correo');
+  const acepto = document.getElementById('acepto');
+
+  const okNombre = validarCampo(nombre, document.getElementById('errNombre'), nombre.value.trim().length >= 3, 'Escribe tu nombre completo');
+  const okTelefono = validarCampo(telefono, document.getElementById('errTelefono'), /^[0-9\s()+-]{10,15}$/.test(telefono.value.trim()), 'Ingresa un teléfono válido');
+  const okCorreo = validarCampo(correo, document.getElementById('errCorreo'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim()), 'Ingresa un correo válido');
+
+  if(!okNombre || !okTelefono || !okCorreo || !acepto.checked){
+    if(!acepto.checked) acepto.parentElement.style.color = '#9A1420';
+    return;
+  }
+  acepto.parentElement.style.color = '';
+
+  btn.classList.add('cargando');
+  btn.disabled = true;
+
+  const datos = {
+    fecha: new Date().toISOString(),
+    nombre: nombre.value.trim(),
+    telefono: telefono.value.trim(),
+    correo: correo.value.trim()
+  };
+
+  try{
+    if(GOOGLE_SCRIPT_URL){
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(datos)
+      });
+    } else {
+      // Modo demo sin backend configurado: guarda localmente
+      const registros = JSON.parse(localStorage.getItem('mega_portal_demo') || '[]');
+      registros.push(datos);
+      localStorage.setItem('mega_portal_demo', JSON.stringify(registros));
+      console.log('Modo demo — registro guardado localmente:', datos);
+    }
+  } catch(err){
+    console.error('Error al enviar datos:', err);
+  }
+
+  setTimeout(function(){
+    pasoForm.style.display = 'none';
+    pasoExito.classList.add('activo');
+    signalIcon.classList.add('on');
+    iniciarContador();
+  }, 900);
+});
+
+function iniciarContador(){
+  let segundos = 60 * 60;
+  const el = document.getElementById('contador');
+  const intervalo = setInterval(function(){
+    segundos--;
+    if(segundos <= 0){ clearInterval(intervalo); }
+    const m = String(Math.floor(segundos/60)).padStart(2,'0');
+    const s = String(segundos%60).padStart(2,'0');
+    el.textContent = m + ':' + s;
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
